@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: false
+  },
   type: {
     type: String,
     required: true
@@ -20,4 +25,3 @@ const transactionSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Transaction", transactionSchema);
-

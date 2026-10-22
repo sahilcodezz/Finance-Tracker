@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import {
   User,
   Mail,
@@ -31,9 +31,7 @@ const Profile = () => {
   // Fetch Profile Info
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await api.get("/api/auth/profile");
       setUser(res.data);
     } catch (err) {
       console.error(err);
@@ -62,11 +60,10 @@ const Profile = () => {
 
     setLoading(true);
     try {
-      const res = await axios.put(
-        "http://localhost:5000/api/auth/change-password",
-        { oldPassword, newPassword },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.put("/api/auth/change-password", {
+        oldPassword,
+        newPassword
+      });
 
       setFeedback({ type: "success", message: res.data.message || "Password updated successfully!" });
       setOldPassword("");

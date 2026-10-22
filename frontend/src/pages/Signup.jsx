@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import {
   Wallet,
   User,
@@ -39,10 +39,7 @@ function Signup() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        formData
-      );
+      const res = await api.post("/api/auth/signup", formData);
 
       setSuccess(res.data.message || "Account created! OTP dispatched to email.");
       setTimeout(() => {

@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "finance-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fullstack Finance Tracker API and Application",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",

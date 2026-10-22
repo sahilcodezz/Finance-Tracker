@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import {
   TrendingUp,
   TrendingDown,
@@ -43,9 +43,7 @@ function Dashboard() {
 
     const fetchTransactions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/transactions", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.get("/api/transactions");
         setTransactions(res.data || []);
       } catch (err) {
         console.error("Dashboard fetch error:", err);

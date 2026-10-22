@@ -289,14 +289,14 @@ router.post("/reset-password", async (req, res) => {
     }
 
     // check otp
-    if (user.otp !== otp) {
+    if (String(user.otp) !== String(otp)) {
       return res.status(400).json({
         message: "Invalid OTP"
       });
     }
 
     // check expiry
-    if (user.otpExpires < Date.now()) {
+    if (!user.otpExpires || user.otpExpires < Date.now()) {
       return res.status(400).json({
         message: "OTP expired"
       });
@@ -326,15 +326,6 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
-  try {
-    await Transaction.findByIdAndDelete(req.params.id);
-
-    res.json({ message: "Deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 // GET USER PROFILE
 router.get("/profile", authMiddleware, async (req, res) => {
   try {

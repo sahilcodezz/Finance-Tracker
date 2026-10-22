@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import {
   Wallet,
   Mail,
@@ -34,9 +34,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/forgot-password", {
-        email
-      });
+      const res = await api.post("/api/auth/forgot-password", { email });
 
       setSuccess(res.data.message || "Reset passcode sent to your email.");
       setStep(2);
@@ -55,7 +53,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/reset-password", {
+      const res = await api.post("/api/auth/reset-password", {
         email,
         otp,
         newPassword

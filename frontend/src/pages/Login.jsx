@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import { 
   Wallet, 
   Mail, 
@@ -34,10 +34,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password }
-      );
+      const res = await api.post("/api/auth/login", { email, password });
 
       if (res.data) {
         setSuccessMsg("Verification code dispatched to your email.");
@@ -57,10 +54,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-login-otp",
-        { email, otp }
-      );
+      const res = await api.post("/api/auth/verify-login-otp", { email, otp });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.user?.id || res.data.user?._id);

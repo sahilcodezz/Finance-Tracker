@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import axios from "axios";
+import api from "../services/api";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -68,9 +68,7 @@ const Finance = () => {
   const fetchTransactions = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/transactions", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await api.get("/api/transactions");
       setTransactions(res.data || []);
     } catch (err) {
       console.error("Error fetching transactions:", err);
@@ -89,17 +87,11 @@ const Finance = () => {
 
     setSubmitting(true);
     try {
-      await axios.post(
-        "http://localhost:5000/api/transactions",
-        {
-          type: form.type,
-          description: form.description,
-          amount: parseFloat(form.amount)
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      await api.post("/api/transactions", {
+        type: form.type,
+        description: form.description,
+        amount: parseFloat(form.amount)
+      });
 
       setForm({ type: form.type, description: "", amount: "" });
       setFeedback({ type: "success", message: "Transaction recorded successfully!" });
@@ -116,9 +108,7 @@ const Finance = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await api.delete(`/api/transactions/${id}`);
       setTransactions(prev => prev.filter(t => t._id !== id));
       setFeedback({ type: "success", message: "Transaction removed." });
       setTimeout(() => setFeedback(null), 2500);

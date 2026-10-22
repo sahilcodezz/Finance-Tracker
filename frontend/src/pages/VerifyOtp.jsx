@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import { Wallet, Mail, KeyRound, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 
 function VerifyOtp() {
@@ -20,10 +20,7 @@ function VerifyOtp() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
-        { email, otp }
-      );
+      const res = await api.post("/api/auth/verify-otp", { email, otp });
 
       setSuccess(res.data.message || "Email verified! Redirecting to login...");
       setTimeout(() => {
